@@ -19,9 +19,9 @@ import math
 import os
 import re
 
-from budgeting_engine import amount, cash_round, purchase_check
+from backend.budgeting_engine import amount, cash_round, purchase_check
 
-BASE = Path(__file__).resolve().parent
+BASE = Path(__file__).resolve().parent.parent
 DEFAULT_MODEL = 'openrouter/free'
 OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 TAVILY_URL = 'https://api.tavily.com/search'

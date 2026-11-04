@@ -11,13 +11,13 @@ from unittest.mock import patch
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from shopping_ai import (
+from backend.shopping_ai import (
     shopping_policy, validate_request, normalize_response, recommend,
     call_openrouter, search_tavily, config_status, ShoppingInputError,
     ShoppingUnavailable, extract_json,
 )
-from server import make_server
-from storage import BudgetStore
+from backend.server import make_server
+from backend.storage import BudgetStore
 
 
 def sample_analysis():

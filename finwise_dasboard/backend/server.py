@@ -18,19 +18,19 @@ import threading
 from urllib.parse import parse_qs, unquote, urlsplit
 from uuid import uuid4
 
-from budgeting_engine import (Transaction, amount, analyze, breakdown, day,
+from backend.budgeting_engine import (Transaction, amount, analyze, breakdown, day,
                               load, month_range, posted, purchase_check, serialize)
-from storage import BudgetStore
-from shopping_ai import (config_status, shopping_policy, recommend as shopping_recommend,
+from backend.storage import BudgetStore
+from backend.shopping_ai import (config_status, shopping_policy, recommend as shopping_recommend,
                          ShoppingInputError, ShoppingUnavailable)
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent
 ASSETS = {
-    '/': ('static/index.html', 'text/html; charset=utf-8'),
-    '/index.html': ('static/index.html', 'text/html; charset=utf-8'),
-    '/style.css': ('static/style.css', 'text/css; charset=utf-8'),
-    '/app.js': ('static/app.js', 'application/javascript; charset=utf-8'),
-    '/shopping.js': ('static/shopping.js', 'application/javascript; charset=utf-8'),
+    '/': ('Frontend/index.html', 'text/html; charset=utf-8'),
+    '/index.html': ('Frontend/index.html', 'text/html; charset=utf-8'),
+    '/style.css': ('Frontend/style.css', 'text/css; charset=utf-8'),
+    '/app.js': ('Frontend/app.js', 'application/javascript; charset=utf-8'),
+    '/shopping.js': ('Frontend/shopping.js', 'application/javascript; charset=utf-8'),
 }
 CONFIG_DEFAULT = {
     'currency': 'HKD', 'lookback_months': 3,
@@ -180,8 +180,20 @@ class Service:
                 with temp.open('x',encoding='utf-8') as f:
                     json.dump([serialize(tx.__dict__)],f,indent=2)
                 result = subprocess.run(
-                    [sys.executable,str(ROOT/'cli.py'),'--db',str(self.db),'import',str(temp)],
-                    cwd=ROOT,text=True,capture_output=True,timeout=20)
+                    [
+                        sys.executable,
+                        '-m',
+                        'backend.cli',
+                        '--db',
+                        str(self.db),
+                        'import',
+                        str(temp)
+                    ],
+                    cwd=ROOT,
+                    text=True,
+                    capture_output=True,
+                    timeout=20
+                    )
                 if result.returncode != 0:
                     raise RuntimeError('CLI import failed: '+result.stderr[-400:])
             finally:
@@ -248,7 +260,7 @@ class Service:
         return shopping_recommend(body, financial)
 
     def seed_demo(self):
-        from demo_data import seed
+        from backend.demo_data import seed
         with BudgetStore(self.db) as store:
             if store.transactions():
                 raise InputError('Demo data can only be loaded into an empty database')

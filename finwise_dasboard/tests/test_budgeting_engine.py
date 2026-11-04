@@ -2,7 +2,7 @@
 import unittest
 from datetime import date
 from decimal import Decimal
-from budgeting_engine import *
+from backend.budgeting_engine import *
 
 def t(i,d,v,kind="expense",category="Food",merchant="Cafe",status="posted",currency="HKD"):
     return {"id":str(i),"date":d,"amount":str(v),"kind":kind,"category":category,

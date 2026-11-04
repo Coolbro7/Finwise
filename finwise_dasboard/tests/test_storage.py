@@ -2,7 +2,7 @@
 import tempfile
 import unittest
 from pathlib import Path
-from storage import BudgetStore
+from backend.storage import BudgetStore
 
 class StorageTests(unittest.TestCase):
     def test_upsert_roundtrip(self):

@@ -5,9 +5,9 @@ from tempfile import TemporaryDirectory
 from datetime import date, timedelta
 import unittest
 
-from budgeting_engine import analyze
-from server import Service
-from storage import BudgetStore
+from backend.budgeting_engine import analyze
+from backend.server import Service
+from backend.storage import BudgetStore
 
 ROW = {'id':'lunch','date':'2026-11-03','amount':'112',
        'kind':'expense','category':'Food','merchant':'Cafe','currency':'HKD'}

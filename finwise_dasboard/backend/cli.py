@@ -3,8 +3,8 @@
 import argparse
 import json
 from datetime import date
-from budgeting_engine import analyze,to_json,purchase_check
-from storage import BudgetStore
+from backend.budgeting_engine import analyze,to_json,purchase_check
+from backend.storage import BudgetStore
 
 def main():
     p=argparse.ArgumentParser(description="Local personal budgeting engine")
@@ -29,12 +29,12 @@ def main():
             rows=json.loads(open(args.file,encoding="utf-8").read())
             if not isinstance(rows,list): raise ValueError("JSON import must be a list")
             # Validate all records before writing any of them.
-            from budgeting_engine import Transaction
+            from backend.budgeting_engine import Transaction
             for row in rows: Transaction.parse(row)
             for row in rows: store.upsert_transaction(row)
             print(f"Imported/updated {len(rows)} transactions")
         elif args.command=="set-budget":
-            from budgeting_engine import amount
+            from backend.budgeting_engine import amount
             store.set_setting("monthly_budget",str(amount(args.amount)))
             print("Monthly budget saved")
         elif args.command=="set-config":

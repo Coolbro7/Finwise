@@ -7,7 +7,7 @@ with operating-system permissions. This is not encrypted at rest.
 import json
 import sqlite3
 from pathlib import Path
-from budgeting_engine import Transaction, amount, day
+from backend.budgeting_engine import Transaction, amount, day
 
 SCHEMA = """
 PRAGMA foreign_keys=ON;

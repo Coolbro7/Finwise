@@ -7,7 +7,7 @@ import json
 import unittest
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
-from server import make_server
+from backend.server import make_server
 
 class DashboardApiTests(unittest.TestCase):
     @classmethod

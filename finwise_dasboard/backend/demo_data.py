@@ -1,6 +1,6 @@
 """Deterministic synthetic transaction history relative to the local calendar."""
 from datetime import date,timedelta
-from budgeting_engine import add_months,amount
+from backend.budgeting_engine import add_months,amount
 
 
 def seed(store):

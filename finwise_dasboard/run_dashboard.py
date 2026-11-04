@@ -3,7 +3,7 @@ import argparse
 import threading
 import webbrowser
 from pathlib import Path
-from server import make_server
+from backend.server import make_server
 
 
 def main():
