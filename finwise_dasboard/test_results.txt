@@ -1,0 +1,35 @@
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 718, in _warm_feature_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/spreadsheet_warmup.py", line 509, in _warm_drawing_and_image_flows
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/generated/interface/models.py", line 32861, in bring_to_front
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/remote.py", line 764, in __call__
+  File "/tmp/tmp.QlpUkOUI9D/artifact_tool_v2-2.8.66/artifact_tool/rpc/client.py", line 175, in call
+artifact_tool.rpc.client.RemoteError: Element ordering requires an owning element collection.
+test_anomaly (test_budgeting_engine.BudgetTests.test_anomaly) ... ok
+test_budget_and_cash_both_bind (test_budgeting_engine.BudgetTests.test_budget_and_cash_both_bind) ... ok
+test_category_allocations_sum (test_budgeting_engine.BudgetTests.test_category_allocations_sum) ... ok
+test_cents (test_budgeting_engine.BudgetTests.test_cents) ... ok
+test_confirmed_bills_in_forecast (test_budgeting_engine.BudgetTests.test_confirmed_bills_in_forecast) ... ok
+test_currency_rejected (test_budgeting_engine.BudgetTests.test_currency_rejected) ... ok
+test_duplicate_ids_rejected (test_budgeting_engine.BudgetTests.test_duplicate_ids_rejected) ... ok
+test_end_of_month_daily_zero (test_budgeting_engine.BudgetTests.test_end_of_month_daily_zero) ... ok
+test_end_to_end (test_budgeting_engine.BudgetTests.test_end_to_end) ... ok
+test_forecast_no_negative_below_actual (test_budgeting_engine.BudgetTests.test_forecast_no_negative_below_actual) ... ok
+test_history_completed_month (test_budgeting_engine.BudgetTests.test_history_completed_month) ... ok
+test_invalid_money (test_budgeting_engine.BudgetTests.test_invalid_money) ... ok
+test_negative_budget_headroom_visible (test_budgeting_engine.BudgetTests.test_negative_budget_headroom_visible) ... ok
+test_no_recurring_two (test_budgeting_engine.BudgetTests.test_no_recurring_two) ... ok
+test_pending_not_posted (test_budgeting_engine.BudgetTests.test_pending_not_posted) ... ok
+test_purchase_guard (test_budgeting_engine.BudgetTests.test_purchase_guard) ... ok
+test_recurring_monthly (test_budgeting_engine.BudgetTests.test_recurring_monthly) ... ok
+test_refund_reduces_spending (test_budgeting_engine.BudgetTests.test_refund_reduces_spending) ... ok
+test_transfer_not_spending (test_budgeting_engine.BudgetTests.test_transfer_not_spending) ... ok
+test_upsert_roundtrip (test_storage.StorageTests.test_upsert_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 0.016s
+
+OK

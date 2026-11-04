@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f0">
+  <title>Finwise · Financial Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+  <script src="/shopping.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#overview" aria-label="Finwise home">
+        <span class="brand-icon"><svg viewBox="0 0 32 32" width="28" height="28" aria-hidden="true"><path d="M6 23V9h6v14M13 23V13h6v10M20 23V5h6v18" stroke="currentColor" stroke-width="3.5" stroke-linejoin="round" fill="none"/><path d="M4 26h24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+        <span>finwise<span class="brand-period">.</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="#overview" class="active">Overview</a>
+        <a href="#transactions">Transactions</a>
+        <a href="#bills">Bills & insights</a>
+        <a href="#shopping">Can I afford it?</a>
+        <a href="#settings">Budget settings</a>
+      </nav>
+      <div class="top-right"><span class="online-dot"></span><span>Local prototype</span><span class="top-avatar">F</span></div>
+    </header>
+
+    <main>
+      <section id="overview" class="overview-section">
+        <div class="heading-row">
+          <div>
+            <div class="overline">YOUR PERSONAL FINANCE SPACE</div>
+            <h1 id="greeting">Good morning!</h1>
+            <p class="heading-sub" id="todayText">Your money, clearly understood.</p>
+          </div>
+          <div class="heading-controls">
+            <span class="refresh-note" id="refreshNote"><span class="online-dot small"></span> Live analysis</span>
+            <label class="month-control"><span>Viewing</span><input type="month" id="monthPicker" aria-label="Select dashboard month" /></label>
+          </div>
+        </div>
+        <div id="demoBanner" class="demo-banner" hidden>
+          <div><strong>Welcome to Finwise.</strong> Your database is empty. Load synthetic transactions for an instant assignment demo, or add your own.</div>
+          <button class="button primary" id="loadDemoBtn" type="button">Load demo data</button>
+        </div>
+        <div id="demoTag" class="demo-tag" hidden>DEMO DATA · All transactions are fictional</div>
+
+        <div class="stat-grid" aria-label="Monthly financial summary">
+          <article class="stat-card first-card">
+            <div class="stat-top"><span class="stat-label">Total income</span><span class="stat-icon">↗</span></div>
+            <div class="stat-number" id="incomeValue">HK$—</div>
+            <p class="stat-foot" id="incomeSub">Posted income this month</p>
+          </article>
+          <article class="stat-card tint-card">
+            <div class="stat-top"><span class="stat-label">Net expenses</span><span class="stat-icon">↗</span></div>
+            <div class="stat-number" id="spendingValue">HK$—</div>
+            <p class="stat-foot" id="spendingSub">Of monthly budget</p>
+          </article>
+          <article class="stat-card tint-card">
+            <div class="stat-top"><span class="stat-label">Safe to spend</span><span class="stat-icon">✳</span></div>
+            <div class="stat-number" id="safeValue">HK$—</div>
+            <p class="stat-foot" id="safeSub">After reserves and buffers</p>
+          </article>
+          <article class="stat-card tint-card">
+            <div class="stat-top"><span class="stat-label">Month-end forecast</span><span class="stat-icon">◉</span></div>
+            <div class="stat-number" id="forecastValue">HK$—</div>
+            <p class="stat-foot" id="forecastSub">Projected total expenses</p>
+          </article>
+        </div>
+
+        <div class="chart-grid">
+          <section class="panel chart-panel">
+            <div class="panel-header">
+              <div><div class="panel-kicker">MONTHLY PERFORMANCE</div><h2>Spending overview</h2><p class="muted" id="chartSubtitle">Daily financial activity</p></div>
+              <div class="segmented" role="group" aria-label="Chart display mode">
+                <button type="button" class="segment active" data-chart-mode="cumulative">Cumulative</button>
+                <button type="button" class="segment" data-chart-mode="daily">Daily</button>
+              </div>
+            </div>
+            <div class="chart-totals">
+              <div><span class="muted tiny">Total recorded</span><strong id="chartSpent">HK$—</strong></div>
+              <div><span class="muted tiny">Monthly limit</span><strong class="dark" id="chartBudget">HK$—</strong></div>
+            </div>
+            <div id="lineChart" class="line-chart" role="img" aria-label="Line graph of spending this month"></div>
+            <div class="chart-legend"><span><i class="legend-swatch green"></i>Recorded spending</span><span><i class="legend-swatch dashed"></i>Estimated month-end</span><span><i class="legend-swatch gray"></i>Monthly budget</span></div>
+          </section>
+          <section class="panel breakdown-panel">
+            <div class="panel-header"><div><div class="panel-kicker">WHERE YOUR MONEY GOES</div><h2>Expense breakdown</h2><p class="muted">Spending by category</p></div></div>
+            <div class="donut-wrap">
+              <div class="donut" id="expenseDonut"><div class="donut-inner"><span>Net expenses</span><strong id="donutTotal">HK$—</strong></div></div>
+              <div class="donut-caption" id="donutCaption">This month</div>
+            </div>
+            <div id="expenseLegend" class="expense-legend"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="insight-strip">
+        <article class="mini-panel">
+          <div class="mini-icon green-bg">▦</div>
+          <div><span class="muted tiny">Daily safe allowance</span><strong id="dailyAllowance">HK$—</strong><span class="mini-caption">Remaining days after today</span></div>
+        </article>
+        <article class="mini-panel">
+          <div class="mini-icon pale-bg">◫</div>
+          <div><span class="muted tiny">Budget remaining</span><strong id="remainingValue">HK$—</strong><span class="mini-caption">Before future reserves</span></div>
+        </article>
+        <article class="mini-panel">
+          <div class="mini-icon dark-bg">◎</div>
+          <div><span class="muted tiny">Cash headroom</span><strong id="cashValue">HK$—</strong><span class="mini-caption" id="cashCaption">Based on entered cash balance</span></div>
+        </article>
+      </section>
+
+      <section id="transactions" class="section-block">
+        <div class="section-heading"><div><div class="overline">MANAGE YOUR MONEY</div><h2>Transactions</h2><p class="muted">Review, create, edit, or delete transactions in the selected month.</p></div><button class="button primary" id="addTransactionBtn" type="button"><span class="plus">+</span> Add transaction</button></div>
+        <div class="panel transaction-panel">
+          <div class="table-toolbar"><div class="search-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="17" height="17" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input type="search" id="txSearch" placeholder="Search merchant or category" aria-label="Search transactions"></div><select id="txKind" aria-label="Filter transaction type"><option value="all">All types</option><option value="expense">Expenses</option><option value="income">Income</option><option value="refund">Refunds</option><option value="transfer">Transfers</option></select><span class="table-count" id="transactionCount">0 transactions</span></div>
+          <div class="table-scroll"><table><thead><tr><th>Transaction</th><th>Category</th><th>Date</th><th>Status</th><th class="align-right">Amount</th><th class="align-right">Actions</th></tr></thead><tbody id="txTableBody"><tr><td colspan="6" class="empty-cell">Loading transactions…</td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section id="bills" class="section-block">
+        <div class="section-heading"><div><div class="overline">PLAN AHEAD</div><h2>Upcoming bills & insights</h2><p class="muted">Manage confirmed payments and discover recurring spending.</p></div><button class="button primary" id="addBillBtn" type="button"><span class="plus">+</span> Add bill</button></div>
+        <div class="secondary-grid">
+          <article class="panel bills-panel"><div class="subheader"><h3>Confirmed bills</h3><span class="muted tiny">Entered manually · Protected automatically</span></div><div id="billsList" class="bills-list"></div><div class="note-box">Confirmed future bills automatically reduce Safe to Spend and are included in the forecast. Do not also add them under other unpaid cash obligations. If an essential reserve uses the same category, the larger amount is protected (not counted twice).</div></article>
+          <article class="panel insights-panel"><div class="subheader"><h3>Recurring pattern candidates</h3><span class="tag outline">Not confirmed</span></div><div id="recurringList" class="recurring-list"></div><div class="panel-divider"></div><h3 class="insight-header">Spending insights</h3><div id="alertsList" class="alerts-list"></div></article>
+        </div>
+      </section>
+
+      <section id="settings" class="section-block">
+        <div class="section-heading"><div><div class="overline">STAY IN CONTROL</div><h2>Budget settings</h2><p class="muted">Changes apply immediately to your next analysis.</p></div><button class="button primary" type="button" id="saveSettingsBtn">Save all settings</button></div>
+        <div class="settings-grid">
+          <article class="panel settings-panel">
+            <div class="subheader"><h3>Financial overview</h3><span class="tag outline">HKD</span></div>
+            <div class="form-grid">
+              <label class="field"><span>Monthly spending budget</span><input id="settingBudget" type="number" min="0" step="0.01" inputmode="decimal"></label>
+              <label class="field"><span>Spendable cash <small>(optional)</small></span><input id="settingCash" type="number" min="0" step="0.01" placeholder="Not provided" inputmode="decimal"></label>
+              <label class="field"><span>Expected other spending</span><input id="settingFuture" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Budget safety buffer</span><input id="settingBudgetBuffer" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Other unpaid cash obligations (excluding confirmed bills)</span><input id="settingCashDue" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>Cash safety buffer</span><input id="settingCashBuffer" type="number" min="0" step="0.01"></label>
+              <label class="field"><span>History lookback (months)</span><input id="settingLookback" type="number" min="1" max="24" step="1"></label>
+            </div>
+            <p class="settings-help">Spendable cash is a manual input, not a calculated bank balance. Only posted expenses count toward current spending.</p>
+          </article>
+          <article class="panel settings-panel">
+            <div class="subheader"><h3>Essential reserves</h3><button class="text-button" id="addReserveBtn" type="button">+ Add reserve</button></div>
+            <p class="muted tiny">Other unpaid essentials. Confirmed bills are protected automatically; matching categories use the larger amount.</p>
+            <div id="reservesRows" class="mapping-list"></div>
+            <div class="panel-divider"></div>
+            <div class="subheader"><h3>Category monthly limits</h3><button class="text-button" id="addCapBtn" type="button">+ Add limit</button></div>
+            <p class="muted tiny">Optional monthly caps. Historical behavior influences suggested allowances.</p>
+            <div id="capsRows" class="mapping-list"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block lower-grid">
+        <article class="panel allocation-panel"><div class="subheader"><div><div class="panel-kicker">SMART ALLOCATION</div><h3>Remaining category allowances</h3></div></div><div id="allocationList" class="allocations"></div></article>
+        <article class="panel checker-panel"><div class="panel-kicker">BEFORE YOU BUY</div><h3>Quick price checker</h3><p class="muted">Already know the price? Check it here. <a href="#shopping" style="color:#567b35;font-weight:700">Describe a product and get AI shopping suggestions ↓</a></p><form id="purchaseForm" class="purchase-form"><label class="field"><span>Purchase price (HKD)</span><input id="purchasePrice" type="number" step="0.01" min="0" placeholder="e.g. 350" required></label><button class="button primary" type="submit">Check affordability →</button></form><div id="purchaseResult" class="purchase-result">Enter a price to check against your current safe limit.</div><div class="panel-divider"></div><div class="subheader"><h3>Typical weekday spending</h3></div><div id="weekdayChart" class="weekday-chart"></div></article>
+      </section>
+      <section id="shopping" class="section-block shopping-section">
+        <div class="section-heading">
+          <div><div class="overline">SMART SHOPPING</div><h2>Find it. Check it. Afford it.</h2>
+            <p class="muted">Describe what you want. Finwise calculates your price cap; Tavily finds listings and OpenRouter evaluates them.</p></div>
+          <span class="shopping-ai-tag">✳ &nbsp; AI + live search</span>
+        </div>
+        <div class="shopping-grid">
+          <article class="panel shopping-form-panel">
+            <div class="panel-kicker">WHAT'S ON YOUR WISHLIST?</div>
+            <h3>Find something you'll love</h3>
+            <form id="shoppingForm" class="shopping-form">
+              <label class="field"><span>What would you like to buy?</span>
+                <textarea id="shoppingQuery" rows="3" minlength="3" maxlength="180" required placeholder="e.g. A black t-shirt with a graffiti print"></textarea></label>
+              <label class="field"><span>Where should we look?</span>
+                <select id="shoppingMode">
+                  <option value="both">Online + nearby shops</option>
+                  <option value="online" selected>Online only</option>
+                  <option value="nearby">Nearby shops only</option>
+                </select></label>
+              <label class="field"><span>Your city or neighbourhood <small>(for nearby results)</small></span>
+                <input id="shoppingLocation" type="text" maxlength="120" placeholder="e.g. Hung Hom, Hong Kong" autocomplete="off"></label>
+              <div class="location-actions">
+                <button class="button ghost" type="button" id="shoppingUseLocation">◎ &nbsp; Use my current location</button>
+                <span id="shoppingLocationStatus" class="muted tiny">Optional. Browser asks your permission.</span>
+              </div>
+              <button class="button primary shopping-search-button" type="submit" id="shoppingSearchBtn">✳ &nbsp; Find affordable options</button>
+            </form>
+            <div class="shopping-privacy">Your location is used only for the current search. Your financial transaction history and banking details are never sent to OpenRouter or Tavily. Results must be checked with the seller.</div>
+          </article>
+          <article class="panel shopping-finance-panel">
+            <div class="panel-kicker">YOUR SPENDING GUARDRAIL</div>
+            <h3>Budget before browsing</h3>
+            <div class="shopping-cap-caption">Suggested maximum total purchase</div>
+            <div class="shopping-cap-number" id="shoppingMaxPrice">HK$—</div>
+            <p class="muted" id="shoppingCapExplanation">Your current spending limit will appear here.</p>
+            <div class="shopping-finance-list">
+              <div><span>Safe to spend</span><strong id="shoppingSafe">—</strong></div>
+              <div><span>Daily allowance</span><strong id="shoppingDaily">—</strong></div>
+              <div><span>Forecast headroom</span><strong id="shoppingForecastHead">—</strong></div>
+              <div><span>Upcoming confirmed bills</span><strong id="shoppingBills">—</strong></div>
+            </div>
+            <div id="shoppingConnection" class="shopping-connection">Checking shopping service configuration…</div>
+          </article>
+        </div>
+        <article class="panel shopping-results-panel" id="shoppingResultsPanel" aria-live="polite">
+          <div class="subheader"><div><div class="panel-kicker">CURATED FOR YOUR BUDGET</div><h3>Shopping recommendations</h3></div>
+            <span id="shoppingResultsCount" class="tag outline">Ready to search</span></div>
+          <p id="shoppingResultsMessage" class="muted">Describe a product above to see budget-conscious suggestions and nearby stores.</p>
+          <div id="shoppingProductGrid" class="shopping-products"></div>
+          <div id="shoppingStoreSection" hidden><div class="panel-divider"></div><h3 class="shopping-subheading">Nearby stores to check</h3>
+            <p class="muted tiny">Store suggestions do not confirm that the item is in stock.</p><div id="shoppingStoreGrid" class="shopping-stores"></div></div>
+          <div id="shoppingSourcesSection" hidden><div class="panel-divider"></div><h3 class="shopping-subheading">Sources from Google grounding</h3><div id="shoppingSources" class="shopping-sources"></div></div>
+          <p class="shopping-disclaimer" id="shoppingDisclaimer">AI-researched prices, availability, and links must be verified. No purchase is made through Finwise.</p>
+        </article>
+      </section>
+      <footer><div><strong>finwise.</strong> &nbsp; A local financial tracking prototype for coursework.</div><div id="footerTime">Calculations by Python · Shopping research by Tavily + OpenRouter</div></footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="txModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="txModalTitle">
+      <div class="modal-heading"><div><div class="overline">TRANSACTION MANAGER</div><h2 id="txModalTitle">Add transaction</h2></div><button type="button" class="icon-button close-button" data-close="txModal" aria-label="Close">×</button></div>
+      <form id="txForm" class="modal-form">
+        <div class="form-grid">
+          <label class="field"><span>Amount (HKD)</span><input id="txAmount" type="number" step="0.01" min="0" required></label>
+          <label class="field"><span>Type</span><select id="txType"><option value="expense">Expense</option><option value="income">Income</option><option value="refund">Refund</option><option value="transfer">Transfer</option></select></label>
+          <label class="field"><span>Date</span><input id="txDate" type="date" required></label>
+          <label class="field"><span>Status</span><select id="txStatus"><option value="posted">Posted</option><option value="pending">Pending</option><option value="cancelled">Cancelled</option></select></label>
+          <label class="field"><span>Category</span><input id="txCategory" type="text" maxlength="80" required placeholder="e.g. Food & Dining" list="categorySuggestions"></label>
+          <label class="field"><span>Merchant / source</span><input id="txMerchant" type="text" maxlength="120" placeholder="e.g. Campus Canteen"></label>
+          <label class="field full"><span>Account label</span><input id="txAccount" type="text" maxlength="120" value="Checking" placeholder="e.g. Checking"></label>
+        </div>
+        <datalist id="categorySuggestions"><option>Food & Dining</option><option>Groceries</option><option>Transport</option><option>Rent</option><option>Utilities</option><option>Shopping</option><option>Entertainment</option><option>Health</option><option>Education</option><option>Salary</option></datalist>
+        <div class="modal-actions"><button class="button ghost" type="button" data-close="txModal">Cancel</button><button class="button primary" type="submit" id="txSaveBtn">Save transaction</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-backdrop" id="billModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="billModalTitle">
+      <div class="modal-heading"><div><div class="overline">BILL MANAGER</div><h2 id="billModalTitle">Add confirmed bill</h2></div><button type="button" class="icon-button close-button" data-close="billModal" aria-label="Close">×</button></div>
+      <form id="billForm" class="modal-form">
+        <div class="form-grid">
+          <label class="field full"><span>Bill name</span><input id="billName" type="text" maxlength="100" required placeholder="e.g. Electricity bill"></label>
+          <label class="field"><span>Category</span><input id="billCategory" type="text" required list="categorySuggestions" placeholder="e.g. Utilities"></label>
+          <label class="field"><span>Amount (HKD)</span><input id="billAmount" type="number" step="0.01" min="0" required></label>
+          <label class="field full"><span>Due date</span><input id="billDue" type="date" required></label>
+        </div>
+        <div class="modal-actions"><button class="button ghost" type="button" data-close="billModal">Cancel</button><button class="button primary" type="submit" id="billSaveBtn">Save bill</button></div>
+      </form>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

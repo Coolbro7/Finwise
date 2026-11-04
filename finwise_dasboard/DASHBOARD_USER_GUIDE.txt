@@ -1,0 +1,202 @@
+FINWISE: LOCAL BUDGETING DASHBOARD — ASSIGNMENT USER GUIDE
+===========================================================
+
+1. GET STARTED
+--------------
+Unzip the download. Open a terminal inside the folder containing
+run_dashboard.py. Python 3.10+ is required; no pip installs are necessary.
+
+Recommended for demonstrating an attractive populated dashboard:
+    python run_dashboard.py --demo
+
+For your own empty database:
+    python run_dashboard.py
+
+On macOS or Linux, use python3 if python is not installed.
+The browser opens at http://127.0.0.1:8000 automatically. You can
+open that address manually if the browser does not open.
+
+Press Ctrl+C in your terminal to stop the server.
+
+All changes save into data/budget.sqlite3, even after closing the browser.
+The data created by --demo is fictional and marked as DEMO DATA.
+The --demo switch will not overwrite a database that already has transactions.
+
+2. WHAT YOU SEE ON THE DASHBOARD
+--------------------------------
+Top: Total income, net expenses, safe discretionary money, and the
+estimated total for the end of the selected month.
+
+The large graph: Cumulative spending (a green line), with a dotted
+projection for the remainder of the current month. Click Daily to show
+individual daily spending instead. A gray dotted line represents the
+monthly budget in the cumulative view.
+
+The donut chart: Spending by category in the selected month.
+
+Below the charts: Daily safe allowance, nominal remaining budget, and
+cash headroom (only if you entered a manual available-cash balance).
+
+3. SELECT A MONTH AND VIEW TRANSACTIONS
+---------------------------------------
+Use the green month selector near the top right to select any previous
+or current month. The dashboard, line chart, donut, and transaction
+table update to the chosen month. Future months are not supported.
+
+Scroll to Transactions. Filter with Search and the All types dropdown.
+
+4. ADD A TRANSACTION
+--------------------
+Scroll to Transactions -> Add transaction.
+Fill in:
+  Amount (HKD), type (expense / income / refund / transfer), date,
+  status (posted / pending / cancelled), category, merchant, account.
+Click Save transaction.
+
+Behind the scenes, the local Python server:
+  A. Creates a temporary JSON file at data/new transaction.json.
+  B. Calls the original cli.py import command on that JSON file.
+  C. The CLI inserts the transaction into SQLite.
+  D. The server removes data/new transaction.json, even on failure.
+  E. The dashboard refreshes the analysis and visualizations.
+
+You can repeat this for any number of transactions. Every new purchase
+gets a different automatically generated ID.
+
+5. EDIT A TRANSACTION
+---------------------
+Go to Transactions, select the correct month, locate the row, then click
+the pencil icon. Change the fields, then Save changes.
+
+The same temporary JSON -> CLI import -> deletion workflow is used.
+The existing transaction ID stays the same, so the original record is
+updated rather than duplicated.
+
+6. DELETE A TRANSACTION
+-----------------------
+Click × in the row's Actions column and confirm. The record is permanently
+deleted from the local SQLite database. The graphs update automatically.
+
+7. UPDATE MONTHLY BUDGET
+------------------------
+Scroll to Budget settings -> Financial overview.
+Change Monthly spending budget and click Save all settings.
+The engine recalculates safe spending, daily allowance, and budget
+comparison. The single budget setting currently applies to ALL months.
+
+8. ADJUST CASH, BUFFERS, AND OTHER EXPECTED SPENDING
+---------------------------------------------------
+In Budget settings -> Financial overview you can edit:
+  - Spendable cash: Verified amount of money currently available.
+    Leave empty for an estimate based on your budget only.
+  - Expected other spending: Future unreserved variable expenses.
+  - Budget safety buffer: Extra amount you want to protect from spending.
+  - Other unpaid cash obligations: Outstanding payments NOT already
+    entered in the confirmed bills list; confirmed bills are auto-protected.
+  - Cash safety buffer: Extra protected cash amount.
+  - History lookback: Previous complete months used for historical analysis.
+
+After any changes, click Save all settings.
+
+9. ADD / EDIT / REMOVE ESSENTIAL RESERVES
+----------------------------------------
+Scroll to Budget settings -> Essential reserves.
+Click + Add reserve to add a row with a name and amount, e.g.:
+   Utilities / 300
+   Groceries / 400
+
+To edit, change a row's name or amount. To delete, click × on the row.
+Always click Save all settings to store your changes.
+Reserves are unpaid future expenses to protect, not amounts already paid.
+
+10. ADD / EDIT / REMOVE CATEGORY MONTHLY LIMITS
+-----------------------------------------------
+Under Category monthly limits, click + Add limit.
+Example: Food & Dining / 900
+These are monthly ceilings; the engine also suggests dynamic remaining
+category allowances from historical spending. Click Save all settings.
+
+11. MANAGE CONFIRMED BILLS
+--------------------------
+Scroll to Upcoming bills & insights -> Add bill.
+Enter the bill name, category, amount, and due date. Click Save bill.
+Existing bills have a pencil button to update and × to delete.
+
+Confirmed bills due later in the selected month are automatically
+included in the forecast AND deducted from Safe to Spend. You do not need
+to enter them again in Essential reserves. If a manual essential reserve
+shares the same category, the engine protects the LARGER amount.
+Do not enter confirmed bill costs under Other unpaid cash obligations.
+
+12. SEE RECURRING PAYMENTS AND WARNINGS
+---------------------------------------
+Recurring pattern candidates show repeating payments inferred from your
+history (at least three regularly spaced dates are needed). They are only
+possible future obligations, not automatically confirmed bills.
+
+Spending insights displays potential budget overruns, missing cash input,
+pending transaction count, possible duplicates, or outlier flags.
+
+13. TEST PURCHASE AFFORDABILITY
+-------------------------------
+Scroll to Purchase affordability checker. Enter a price and select
+Check affordability. The Python backend returns a safe-limit decision.
+
+This is the maximum discretionary purchase price given the entered budget,
+essential reserves, other expected future spending, safety buffers, and
+available cash (if entered). These are estimates for a prototype.
+
+14. HOW TO SHOW YOUR ASSIGNMENT PROTOTYPE
+----------------------------------------
+A simple demonstration sequence:
+  1. Start with python run_dashboard.py --demo.
+  2. Select the PREVIOUS month to show a full month of line-chart data.
+  3. Show spending totals, donut chart, and recurring candidates.
+  4. Add a new transaction; explain the JSON -> CLI -> SQLite workflow.
+  5. Edit its amount and show the updated totals.
+  6. Delete it and show the totals return to their prior values.
+  7. Change the monthly budget and the essential reserves; save changes.
+  8. Add a confirmed bill and show Safe to Spend drop and forecast rise.
+  9. Use the purchase checker to show an affordable and an over-limit price.
+
+15. TROUBLESHOOTING
+-------------------
+If port 8000 is busy:
+    python run_dashboard.py --demo --port 8010
+Then visit http://127.0.0.1:8010.
+
+To launch without an automatic browser window:
+    python run_dashboard.py --demo --no-browser
+
+To use an older SQLite database instead of the default one:
+    python run_dashboard.py --db /path/to/your/demo.sqlite3
+
+If transactions are missing, verify the selected month AND the database
+path. The original CLI can share the same SQLite file but must be pointed
+to that exact path.
+
+Do NOT open static/index.html directly from the filesystem. Run the Python
+server and open http://127.0.0.1:8000, or the API will not work.
+
+For test results:
+    python -m unittest discover -v
+
+To start over, STOP the server and rename or delete data/budget.sqlite3.
+Be aware this permanently removes stored transactions and bills.
+The next run creates a new database; --demo will populate it again.
+
+16. TECHNICAL NOTES / LIMITATIONS
+---------------------------------
+Local browser <-> built-in Python REST server <-> budgeting_engine.py
+                                               <-> storage.py / SQLite
+
+No Flask, Node.js, cloud, authentication, or internet is required.
+The system only supports one currency (HKD). Future income is not assumed
+as current cash. Forecasts are rule-based and are not guaranteed.
+The app refreshes every 15 seconds while visible, and after any save.
+Never enter real bank credentials in this coursework prototype.
+
+
+=== AI SHOPPING FEATURE (v1.3) ===
+
+For OpenRouter and Tavily API key setup, shopping search instructions, use of browser location, and classroom demo mode, open SHOPPING_SETUP.md in this folder.

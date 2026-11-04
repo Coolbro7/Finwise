@@ -1,0 +1,90 @@
+test_anomaly (test_budgeting_engine.BudgetTests.test_anomaly) ... ok
+test_budget_and_cash_both_bind (test_budgeting_engine.BudgetTests.test_budget_and_cash_both_bind) ... ok
+test_category_allocations_sum (test_budgeting_engine.BudgetTests.test_category_allocations_sum) ... ok
+test_cents (test_budgeting_engine.BudgetTests.test_cents) ... ok
+test_confirmed_bills_in_forecast (test_budgeting_engine.BudgetTests.test_confirmed_bills_in_forecast) ... ok
+test_currency_rejected (test_budgeting_engine.BudgetTests.test_currency_rejected) ... ok
+test_duplicate_ids_rejected (test_budgeting_engine.BudgetTests.test_duplicate_ids_rejected) ... ok
+test_end_of_month_daily_zero (test_budgeting_engine.BudgetTests.test_end_of_month_daily_zero) ... ok
+test_end_to_end (test_budgeting_engine.BudgetTests.test_end_to_end) ... ok
+test_forecast_no_negative_below_actual (test_budgeting_engine.BudgetTests.test_forecast_no_negative_below_actual) ... ok
+test_history_completed_month (test_budgeting_engine.BudgetTests.test_history_completed_month) ... ok
+test_invalid_money (test_budgeting_engine.BudgetTests.test_invalid_money) ... ok
+test_negative_budget_headroom_visible (test_budgeting_engine.BudgetTests.test_negative_budget_headroom_visible) ... ok
+test_no_recurring_two (test_budgeting_engine.BudgetTests.test_no_recurring_two) ... ok
+test_pending_not_posted (test_budgeting_engine.BudgetTests.test_pending_not_posted) ... ok
+test_purchase_guard (test_budgeting_engine.BudgetTests.test_purchase_guard) ... ok
+test_recurring_monthly (test_budgeting_engine.BudgetTests.test_recurring_monthly) ... ok
+test_refund_reduces_spending (test_budgeting_engine.BudgetTests.test_refund_reduces_spending) ... ok
+test_transfer_not_spending (test_budgeting_engine.BudgetTests.test_transfer_not_spending) ... ok
+test_baselines_do_not_dilute_confirmed_bill (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_baselines_do_not_dilute_confirmed_bill) ... ok
+test_cash_reserves_confirmed_bills (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_cash_reserves_confirmed_bills) ... ok
+test_exact_reported_case (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_exact_reported_case) ... ok
+test_manual_category_reserve_not_counted_twice (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_manual_category_reserve_not_counted_twice) ... ok
+test_multiple_bills_same_category_are_added (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_multiple_bills_same_category_are_added) ... ok
+test_other_category_reserve_stacks (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_other_category_reserve_stacks) ... ok
+test_past_or_next_month_bills_not_counted (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_past_or_next_month_bills_not_counted) ... ok
+test_saved_bill_updates_real_dashboard_report (test_confirmed_bill_regressions.ConfirmedBillRegressionTests.test_saved_bill_updates_real_dashboard_report) ... ok
+test_01_website_and_bootstrap (test_dashboard.DashboardApiTests.test_01_website_and_bootstrap) ... ok
+test_02_settings (test_dashboard.DashboardApiTests.test_02_settings) ... ok
+test_03_transactions_crud_cli_tempfile (test_dashboard.DashboardApiTests.test_03_transactions_crud_cli_tempfile) ... ok
+test_04_bill_crud (test_dashboard.DashboardApiTests.test_04_bill_crud) ... ok
+test_05_affordability_and_validation (test_dashboard.DashboardApiTests.test_05_affordability_and_validation) ... ok
+test_confirmed_bill_reduces_shopping_cap (test_shopping.ShoppingApiTests.test_confirmed_bill_reduces_shopping_cap) ... ok
+test_demo_route_and_assets (test_shopping.ShoppingApiTests.test_demo_route_and_assets) ... ok
+test_http_missing_keys (test_shopping.ShoppingApiTests.test_http_missing_keys) ... ok
+test_http_validation (test_shopping.ShoppingApiTests.test_http_validation) ... ok
+test_policy_get (test_shopping.ShoppingApiTests.test_policy_get) ... ok
+test_private_key_status (test_shopping.ShoppingApiTests.test_private_key_status) ... ok
+test_extract_json (test_shopping.ShoppingUnitTests.test_extract_json) ... ok
+test_live_search_and_llm_mock (test_shopping.ShoppingUnitTests.test_live_search_and_llm_mock) ... ok
+test_missing_keys_graceful (test_shopping.ShoppingUnitTests.test_missing_keys_graceful) ... ok
+test_mock_openrouter_contract (test_shopping.ShoppingUnitTests.test_mock_openrouter_contract) ... ok
+test_mock_tavily_contract (test_shopping.ShoppingUnitTests.test_mock_tavily_contract) ... ok
+test_model_rate_limit_returns_search_links (test_shopping.ShoppingUnitTests.test_model_rate_limit_returns_search_links) ... ok
+test_price_policy (test_shopping.ShoppingUnitTests.test_price_policy) ... ok
+test_price_policy_final_day (test_shopping.ShoppingUnitTests.test_price_policy_final_day) ... ok
+test_price_policy_forecast_overspend (test_shopping.ShoppingUnitTests.test_price_policy_forecast_overspend) ... ok
+test_price_policy_not_over_safe (test_shopping.ShoppingUnitTests.test_price_policy_not_over_safe) ... ok
+test_price_validation_link_and_evidence (test_shopping.ShoppingUnitTests.test_price_validation_link_and_evidence) ... ok
+test_validate_inputs (test_shopping.ShoppingUnitTests.test_validate_inputs) ... ok
+test_wait_no_api_call (test_shopping.ShoppingUnitTests.test_wait_no_api_call) ... ok
+test_upsert_roundtrip (test_storage.StorageTests.test_upsert_roundtrip) ... ok
+
+----------------------------------------------------------------------
+Ran 52 tests in 5.643s
+
+OK
+[local dashboard] "GET / HTTP/1.1" 200 -
+[local dashboard] "GET /app.js HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "PUT /api/settings HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "PUT /api/settings HTTP/1.1" 400 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "POST /api/transactions HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "PUT /api/transactions/tx-457136a14ff54a9a HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "DELETE /api/transactions/tx-457136a14ff54a9a HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "POST /api/bills HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "PUT /api/bills/bill-bffbec951735 HTTP/1.1" 200 -
+[local dashboard] "DELETE /api/bills/bill-bffbec951735 HTTP/1.1" 200 -
+[local dashboard] "GET /api/bootstrap?month=2026-11 HTTP/1.1" 200 -
+[local dashboard] "POST /api/purchase HTTP/1.1" 200 -
+[local dashboard] "POST /api/purchase HTTP/1.1" 400 -
+[local dashboard] "POST /api/transactions HTTP/1.1" 400 -
+[local dashboard] "GET /api/bootstrap?month=2099-01 HTTP/1.1" 400 -
+[local dashboard] "PUT /api/settings HTTP/1.1" 400 -
+[local dashboard] "GET /api/shopping/policy HTTP/1.1" 200 -
+[local dashboard] "GET /api/shopping/policy HTTP/1.1" 200 -
+[local dashboard] "POST /api/shopping/recommend HTTP/1.1" 200 -
+[local dashboard] "GET /shopping.js HTTP/1.1" 200 -
+[local dashboard] "GET /style.css HTTP/1.1" 200 -
+[local dashboard] "GET / HTTP/1.1" 200 -
+[local dashboard] "POST /api/shopping/recommend HTTP/1.1" 503 -
+[local dashboard] "POST /api/shopping/recommend HTTP/1.1" 400 -
+[local dashboard] "GET /api/shopping/policy HTTP/1.1" 200 -
+[local dashboard] "GET /api/shopping/status HTTP/1.1" 200 -

@@ -1,0 +1,19 @@
+# Secrets
+.env
+.env.*
+!.env.example
+.envsk-*
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Database
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# macOS
+.DS_Store

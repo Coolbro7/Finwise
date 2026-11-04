@@ -1,0 +1,8 @@
+[
+  {"id":"rent-aug","date":"2026-08-05","amount":"700","kind":"expense","category":"Rent","merchant":"Landlord"},
+  {"id":"rent-sep","date":"2026-09-05","amount":"700","kind":"expense","category":"Rent","merchant":"Landlord"},
+  {"id":"rent-oct","date":"2026-10-05","amount":"700","kind":"expense","category":"Rent","merchant":"Landlord"},
+  {"id":"groceries-sep","date":"2026-09-08","amount":"350","kind":"expense","category":"Groceries","merchant":"Supermarket"},
+  {"id":"groceries-oct","date":"2026-10-08","amount":"120","kind":"expense","category":"Groceries","merchant":"Supermarket"},
+  {"id":"transport-oct","date":"2026-10-10","amount":"75","kind":"expense","category":"Transport","merchant":"MTR"}
+]

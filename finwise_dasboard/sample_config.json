@@ -1,0 +1,11 @@
+{
+  "currency":"HKD",
+  "lookback_months":3,
+  "essential_reserves":{"Utilities":"150"},
+  "expected_other_spending":"300",
+  "safety_buffer":"200",
+  "spendable_cash":"1800",
+  "unpaid_cash_obligations":"0",
+  "cash_buffer":"200",
+  "category_caps":{"Groceries":"700","Transport":"300"}
+}
